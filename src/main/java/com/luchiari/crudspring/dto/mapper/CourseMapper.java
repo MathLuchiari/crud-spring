@@ -3,6 +3,7 @@ package com.luchiari.crudspring.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.luchiari.crudspring.dto.CourseDTO;
+import com.luchiari.crudspring.enums.Category;
 import com.luchiari.crudspring.model.Course;
 
 @Component
@@ -12,7 +13,7 @@ public class CourseMapper {
         if (course == null) {
             return null;
         }
-        return new CourseDTO(course.getId(), course.getName(), course.getCategory());
+        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue());
     }
 
     public Course toEntity( CourseDTO courseDTO ) {
@@ -27,7 +28,18 @@ public class CourseMapper {
         }
 
         course.setName(courseDTO.name());
-        course.setCategory(courseDTO.category());
+        course.setCategory(convertCategoryValue(courseDTO.category()));
         return course;
     }
+
+    public Category convertCategoryValue(String value) {
+        if (value == null) {
+            return null;
+        }
+        return switch (value) {
+            case "front-end" -> Category.FRONTEND;
+            case "back-end" -> Category.BACKEND;
+            default -> throw new IllegalArgumentException("Categoria inválida: " + value);
+        };
+    } 
 }

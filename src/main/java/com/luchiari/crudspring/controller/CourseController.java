@@ -4,8 +4,6 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luchiari.crudspring.dto.CourseDTO;
-import com.luchiari.crudspring.model.Course;
-import com.luchiari.crudspring.repository.CourseRepository;
 import com.luchiari.crudspring.service.CourseService;
 
 import jakarta.validation.Valid;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -41,7 +38,7 @@ public class CourseController {
     
     //@RequestMapping( method=RequestMethod.GET)
     @GetMapping
-    public @ResponseBody List<CourseDTO> list() {
+    public List<CourseDTO> list() {
         return courseService.list();
     }
     
