@@ -1,5 +1,8 @@
 package com.luchiari.crudspring.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
@@ -10,12 +13,14 @@ import com.luchiari.crudspring.enums.Status;
 import com.luchiari.crudspring.enums.converters.CategoryConverter;
 import com.luchiari.crudspring.enums.converters.StatusConverter;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -53,6 +58,18 @@ public class Course {
     @Convert(converter = StatusConverter.class)
     private Status status = Status.ACTIVE;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "course")
+    // NOTE @JoinColumn(name = "course_id") -> Não é uma boa prática
+    // pois na criação dos registros executa 3 querys
+    // 1 INSERT INTO na tabela pai
+    // 1 INSERT INTO na tabela filha
+    // 1 UPDATE na tabela filha
+    // Podendo gerar lentidão quando em larga escala
+    // Em relacionamentos OneToMany no Spring sempre dê preferencia para relações bidirecionais 
+    // como demonstrado no aquivo abaixo
+    // LINK ./Lesson.java#relacao_bidirecional_spring
+    private List<Lesson> lessons = new ArrayList<>();
+    
     //Quanto mais informacoes sobre as colunas da tabela forem adicionadas
     //melhor sera a geracao do SQL final
 }
