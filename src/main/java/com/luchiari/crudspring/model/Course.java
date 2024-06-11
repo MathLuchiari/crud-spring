@@ -21,12 +21,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
-
-@Data //Notacao responsavel por gerar os Getter e Setter e demais funções da classe
 @Entity //Marca essa classe como uma entidade que será mapeada no BD
 //@Table( name = "cursos" ) - Indica o nome da tabela no BD
 @SQLDelete(sql = "UPDATE Course SET status = 'inativo' WHERE id = ?")
@@ -68,7 +67,56 @@ public class Course {
     // Em relacionamentos OneToMany no Spring sempre dê preferencia para relações bidirecionais 
     // como demonstrado no aquivo abaixo
     // LINK ./Lesson.java#relacao_bidirecional_spring
+    @NotNull
+    @NotEmpty
+    @Valid
     private List<Lesson> lessons = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(@NotBlank @NotNull String name) {
+        this.name = name;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(@NotNull Category category) {
+        this.category = category;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(@NotNull Status status) {
+        this.status = status;
+    }
+
+    public List<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(@NotNull @NotEmpty @Valid List<Lesson> lessons) {
+        this.lessons = lessons;
+    }
+
+    @Override
+    public String toString() {
+        return "Course [id=" + id + ", name=" + name + ", category=" + category + ", status=" + status + ", lessons="
+                + lessons + "]";
+    }
     
     //Quanto mais informacoes sobre as colunas da tabela forem adicionadas
     //melhor sera a geracao do SQL final

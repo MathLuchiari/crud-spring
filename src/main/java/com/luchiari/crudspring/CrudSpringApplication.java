@@ -32,17 +32,23 @@ public class CrudSpringApplication {
 			l.setCourse(c);
 			c.getLessons().add( l );
 
+			Lesson l2 = new Lesson();
+			l2.setName("CRUD Angular + Spring | 02 Overview do Projeto e Instalando o Angular Material");
+			l2.setYoutubeUrl("https://www");
+			l2.setCourse(c);
+			c.getLessons().add( l2 );
+
 			courseRepository.save(c);
 
 			Course c2 = new Course();
 			c2.setName("Spring");
 			c2.setCategory(Category.BACKEND);
 
-			Lesson l2 = new Lesson();
-			l2.setName("CRUD Angular + Spring | 01 Introdução");
-			l2.setYoutubeUrl("https://www");
-			l2.setCourse(c2);
-			c2.getLessons().add( l2 );
+			Lesson l3 = new Lesson();
+			l3.setName("CRUD Angular + Spring | 01 Introdução");
+			l3.setYoutubeUrl("https://www");
+			l3.setCourse(c2);
+			c2.getLessons().add( l3 );
 
 			courseRepository.save(c2);
 		};
