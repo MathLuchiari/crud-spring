@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luchiari.crudspring.dto.CourseDTO;
+import com.luchiari.crudspring.dto.CoursePageDTO;
 import com.luchiari.crudspring.service.CourseService;
 
 import jakarta.validation.Valid;
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Validated
 @RestController //Fala para o Spring que essa classe contém um endpoint, que será acessado via API - É um Java Servlet por trás dos panos
@@ -37,9 +41,16 @@ public class CourseController {
     }
     
     //@RequestMapping( method=RequestMethod.GET)
+    // @GetMapping
+    // public List<CourseDTO> list() {
+    //     return courseService.list();
+    // }
     @GetMapping
-    public List<CourseDTO> list() {
-        return courseService.list();
+    public CoursePageDTO list( 
+        @RequestParam(defaultValue = "0") @PositiveOrZero int pageNumber, 
+        @RequestParam(defaultValue = "100") @Positive @Max(100) int pageSize 
+    ) {
+        return courseService.list(pageNumber, pageSize);
     }
     
     @GetMapping("/{id}")
