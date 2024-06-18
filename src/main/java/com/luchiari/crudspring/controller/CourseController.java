@@ -1,6 +1,5 @@
 package com.luchiari.crudspring.controller;
 
-import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luchiari.crudspring.dto.CourseDTO;
@@ -41,10 +40,6 @@ public class CourseController {
     }
     
     //@RequestMapping( method=RequestMethod.GET)
-    // @GetMapping
-    // public List<CourseDTO> list() {
-    //     return courseService.list();
-    // }
     @GetMapping
     public CoursePageDTO list( 
         @RequestParam(defaultValue = "0") @PositiveOrZero int pageNumber, 
