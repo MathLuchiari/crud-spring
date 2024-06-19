@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import com.luchiari.crudspring.enums.Category;
 import com.luchiari.crudspring.model.Course;
@@ -18,6 +19,7 @@ public class CrudSpringApplication {
 	}
 
 	@Bean //Indica que o spring deve gerenciar o ciclo de vida deste componente
+	@Profile("dev")
 	CommandLineRunner initDatabase(CourseRepository courseRepository) {
 		return args -> {
 			courseRepository.deleteAll();
